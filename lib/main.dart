@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:spacing_t_he_repetition/app/str_app.dart';
+
+import 'app/str_app.dart';
+import 'core/database/app_database.dart';
+import 'feature/category/repository/catalog_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const StrApp());
+
+  // Um banco e um repositório compartilhados durante toda a sessão.
+  final database = AppDatabase();
+  final repository = CatalogRepository(database);
+  runApp(StrApp(repository: repository));
 }
