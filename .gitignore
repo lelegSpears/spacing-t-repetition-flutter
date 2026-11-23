@@ -47,3 +47,7 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 .idea/
+
+# Drift Web - arquivos auxiliares
+web/*.dart.js.deps
+web/*.dart.js.map
