@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../category_draft_model.dart';
+import '../category_model.dart';
 
-// Formulário simples: seu estado é mantido pelo próprio Form.
+/// O mesmo formulário serve para criar e editar uma categoria.
 class CreateCategoryWidget extends StatelessWidget {
-  const CreateCategoryWidget({super.key});
+  const CreateCategoryWidget({super.key, this.category});
+
+  final CategoryModel? category;
 
   @override
   Widget build(BuildContext context) {
-    String name = '';
-    String description = '';
+    String name = category?.name ?? '';
+    String description = category?.description ?? '';
 
     return Form(
       child: Builder(
         builder: (formContext) => AlertDialog(
-          title: const Text('Nova categoria'),
+          title: Text(category == null ? 'Nova categoria' : 'Editar categoria'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  initialValue: category?.name,
                   autofocus: true,
                   maxLength: 60,
                   textCapitalization: TextCapitalization.sentences,
@@ -31,6 +35,7 @@ class CreateCategoryWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
+                  initialValue: category?.description,
                   maxLines: 3,
                   maxLength: 200,
                   decoration: const InputDecoration(labelText: 'Descrição'),
@@ -51,13 +56,10 @@ class CreateCategoryWidget extends StatelessWidget {
                 form.save();
                 Navigator.pop(
                   formContext,
-                  CategoryDraftModel(
-                    name: name,
-                    description: description,
-                  ),
+                  CategoryDraftModel(name: name, description: description),
                 );
               },
-              child: const Text('Criar'),
+              child: Text(category == null ? 'Criar' : 'Salvar'),
             ),
           ],
         ),
